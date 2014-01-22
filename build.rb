@@ -11,7 +11,7 @@ class Hash
 
   # Same as +deep_merge+, but modifies +self+.
   def deep_merge!(other_hash, &block)
-    other_hash.each_pair do |k,v|
+    other_hash.each_pair do |k, v|
       tv = self[k]
       if tv.is_a?(Hash) && v.is_a?(Hash)
         self[k] = tv.deep_merge(v, &block)
@@ -30,7 +30,7 @@ def unflatten(hash)
     keys = key.split('.')
     r = res
     keys.each_with_index do |k, i|
-      if(i + 1 == keys.length)
+      if (i + 1 == keys.length)
         r[k] = value
       else
         r[k] ||= {}
@@ -88,14 +88,13 @@ class Vars
   end
 end
 
-
 def open_structize(object)
   case object
   when Hash
-    mapped = object.inject({}) {|h, (k, v)| h[k] = open_structize(v); h}
+    mapped = object.inject({}) { |h, (k, v)| h[k] = open_structize(v); h }
     OpenStruct.new(mapped)
   when Array
-    object.map {|v| open_structize(v)}
+    object.map { |v| open_structize(v) }
   else
     object
   end
@@ -120,29 +119,33 @@ USAGE
 end
 
 config = {
-          'nats.machines' => ['127.0.0.1'],
-          'nats.user' => 'nats',
-          'nats.password' => 'nats',
-          'nats.port' => 4222,
-          'domain' => 'example.net',
-          'system_domain' => 'example.net',
-          'app_domains' => ['example.net'],
-          'ccng.bulk_api_password' => "Password",
-          'ccng.db_encryption_key' => "Password",
-          'ccdb_ng.db_schema' => 'postgres',
-          'ccdb_ng.address' => '127.0.0.1',
-          'ccdb_ng.port' => '5432',
-          'ccdb_ng.databases' => [{'tag' => 'cc', 'name' => 'ccdb', 'citext' => true}],
-          'ccdb_ng.roles' => [{'tag' => 'admin', 'name' => 'ccadmin', 'password' => 'password'}],
-          'ccng.staging_upload_password' => 'Password',
-          'ccng.quota_definitions' => {"full" =>
-                                       {"non_basic_services_allowed" => true, 
-                                         "total_services" => 20,
-                                         "memory_limit" => 100,
-                                         "total_routes" => 10,
-                                         "trial_db_allowed" => false
-                                       }},
-         }#YAML.load(`config-get --format=yaml --all`)
+  'nats.machines' => ['127.0.0.1'],
+  'nats.user' => 'nats',
+  'nats.password' => 'nats',
+  'nats.port' => 4222,
+  'domain' => 'example.net',
+  'system_domain' => 'example.net',
+  'app_domains' => ['example.net'],
+  'ccng.bulk_api_password' => "Password",
+  'ccng.db_encryption_key' => "Password",
+  'ccdb_ng.db_schema' => 'postgres',
+  'ccdb_ng.address' => '127.0.0.1',
+  'ccdb_ng.port' => '5432',
+  'uaadb.databases' => [{'tag' => 'uaa', 'name' => 'uaadb', 'citext' => true}],
+  'uaadb.roles' => [{'tag' => 'admin', 'name' => 'uaadmin', 'password' => 'password'}],
+  'ccdb.databases' => [{'tag' => 'cc', 'name' => 'ccdb', 'citext' => true}],
+  'ccdb.roles' => [{'tag' => 'admin', 'name' => 'ccadmin', 'password' => 'password'}],
+  'ccdb_ng.databases' => [{'tag' => 'cc', 'name' => 'ccdb', 'citext' => true}],
+  'ccdb_ng.roles' => [{'tag' => 'admin', 'name' => 'ccadmin', 'password' => 'password'}],
+  'ccng.staging_upload_password' => 'Password',
+  'ccng.quota_definitions' => {"full" =>
+    {"non_basic_services_allowed" => true,
+      "total_services" => 20,
+      "memory_limit" => 100,
+      "total_routes" => 10,
+      "trial_db_allowed" => false
+    }},
+} #YAML.load(`config-get --format=yaml --all`)
 
 spec = YAML.load(File.read(File.join(ARGV[0], 'spec')))
 
@@ -152,11 +155,11 @@ templates = spec['templates']
 
 template_spec = build_template_spec
 
-d = Hash[default_properties.map { |k,v| [k, v['default']] }]
+d = Hash[default_properties.map { |k, v| [k, v['default']] }]
 d['networks.apps'] = 'apps'
 defaults = unflatten(d)
 
-props = defaults.deep_merge(unflatten(config)) {|k, s, ds| ds || s}
+props = defaults.deep_merge(unflatten(config)) { |k, s, ds| ds || s }
 vars = Vars.new(props, template_spec, spec['name'])
 
 
