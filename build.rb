@@ -131,6 +131,8 @@ config = {
   'ccdb_ng.db_schema' => 'postgres',
   'ccdb_ng.address' => '127.0.0.1',
   'ccdb_ng.port' => '5432',
+  'cc.srv_api_uri' => 'api.127.0.0.1.xip.io',
+  'etcd_ips' => ['127.0.0.1'],
   'uaadb.databases' => [{'tag' => 'uaa', 'name' => 'uaadb', 'citext' => true}],
   'uaadb.roles' => [{'tag' => 'admin', 'name' => 'uaadmin', 'password' => 'password'}],
   'ccdb.databases' => [{'tag' => 'cc', 'name' => 'ccdb', 'citext' => true}],
