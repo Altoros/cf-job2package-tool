@@ -8,4 +8,4 @@ Usage
 ```
 ./build.rb <job dir> <output dir>
 ```
-Example: ./build.rb ~/work/github/cf-release/jobs/nats ~/some-workspace-with-package-sources
+Example: `./build.rb ~/work/github/cf-release/jobs/nats ~/some-workspace-with-package-sources`
